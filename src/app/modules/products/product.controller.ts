@@ -44,7 +44,6 @@ const createProduct = async (req: Request, res: Response): Promise<void> => {
 const getAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
     const products = await ProductService.allProducts();
-    console.log("products controller : all products", products);
     sendSuccessResponse(res, products, "Products fetched successfully", 200);
     return;
   } catch (err: any) {

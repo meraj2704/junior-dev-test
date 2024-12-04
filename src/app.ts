@@ -18,7 +18,6 @@ connectDB();
 
 // Route
 app.get("/", (req: Request, res: Response) => {
-  console.log("hit on /");
   res.json({ message: "Hello World" });
 });
 

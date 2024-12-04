@@ -3,7 +3,7 @@ import { ProductI } from "./product.interface";
 import { ProductModel } from "./product.models";
 
 const saveProduct = async (data: ProductI, image: string | undefined) => {
-  console.log("product service : product", data);
+
   const newData = {
     ...data,
     image,
@@ -13,39 +13,34 @@ const saveProduct = async (data: ProductI, image: string | undefined) => {
 };
 
 const existProduct = async (name: string) => {
-  console.log("search exist product for name is :", name);
+
   const product = await ProductModel.findOne({ name }).lean();
-  console.log("search product ", product);
+
   return !!product;
 };
 
 const allProducts = async () => {
-  console.log("get all products");
+
   const products = await ProductModel.find({ isDeleted: false })
     .select("_id name price discountPercentage discountedPrice image")
     .lean();
-  console.log("all products ", products);
   return products;
 };
 
 const productDetails = async (_id: mongoose.Types.ObjectId) => {
-  console.log("product service : product id", _id);
+
   const productDetails = await ProductModel.findById(_id)
     .select(
       "_id name price discountPercentage discountedPrice description image active"
     )
     .lean();
-  console.log("product service : product details", productDetails);
   return productDetails;
 };
 
 const updateProduct = async (_id: mongoose.Types.ObjectId, data: ProductI) => {
-  console.log("product service : product id", _id);
-  console.log("product service : product data", data);
   const updatedProduct = await ProductModel.findByIdAndUpdate(_id, data, {
     new: true,
   });
-  console.log("product service : updated product", updatedProduct);
   return updatedProduct;
 };
 
@@ -59,13 +54,12 @@ const deletedProduct = async (id: mongoose.Types.ObjectId) => {
 };
 
 const addToWishlist = async (id: mongoose.Types.ObjectId) => {
-  console.log("product service : add to wishlist product id", id);
+
   const updatedProduct = await ProductModel.findByIdAndUpdate(
     id,
     { wishList: true },
     { new: true }
   );
-  console.log("product service : updated product wishlist", updatedProduct);
   return updatedProduct;
 };
 
@@ -73,7 +67,6 @@ const getAllWishlistProducts = async() => {
   const products = await ProductModel.find({ wishList: true })
    .select("_id name price discountPercentage discountedPrice image")
    .lean();
-  console.log("product service : all wishlist products", products);
   return products;
 }
 
