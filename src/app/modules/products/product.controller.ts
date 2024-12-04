@@ -166,10 +166,44 @@ const productDelete = async (req: Request, res: Response) => {
   }
 };
 
+const addOnWishlist = async(req: Request, res: Response) => {
+  try{
+    const { id } = req.params;
+    const _id = new mongoose.Types.ObjectId(id);
+    const wishlist = await ProductService.addToWishlist(_id);
+    if(!wishlist){
+      sendErrorResponse(res, "An error occurred while adding product to wishlist", [], 500);
+      return;
+    }
+    sendSuccessResponse(res, wishlist, "Product added to wishlist successfully", 200);
+    return;
+  }
+  catch(err:any){
+    console.error("Error adding product to wishlist : ", err);
+    sendErrorResponse(res, "An error occurred while adding product to wishlist", [], 500);
+    return;
+  }
+}
+
+const getAllWishListProducts = async(req: Request, res: Response) => {
+  try{
+    const wishlist = await ProductService.getAllWishlistProducts();
+    sendSuccessResponse(res, wishlist, "Wishlist products fetched successfully", 200);
+    return;
+  }
+  catch(err:any){
+    console.error("Error fetching wishlist products : ", err);
+    sendErrorResponse(res, "An error occurred while fetching wishlist products", [], 500);
+    return;
+  }
+}
+
 export const ProductController = {
   createProduct,
   getAllProducts,
   getProductDetails,
   // productUpdate,
   productDelete,
+  addOnWishlist,
+  getAllWishListProducts
 };

@@ -21,14 +21,20 @@ const existProduct = async (name: string) => {
 
 const allProducts = async () => {
   console.log("get all products");
-  const products = await ProductModel.find({ isDeleted: false }).select("_id name price discountPercentage discountedPrice image").lean();
+  const products = await ProductModel.find({ isDeleted: false })
+    .select("_id name price discountPercentage discountedPrice image")
+    .lean();
   console.log("all products ", products);
   return products;
 };
 
 const productDetails = async (_id: mongoose.Types.ObjectId) => {
   console.log("product service : product id", _id);
-  const productDetails = await ProductModel.findById(_id).select("_id name price discountPercentage discountedPrice description image active").lean();
+  const productDetails = await ProductModel.findById(_id)
+    .select(
+      "_id name price discountPercentage discountedPrice description image active"
+    )
+    .lean();
   console.log("product service : product details", productDetails);
   return productDetails;
 };
@@ -52,6 +58,25 @@ const deletedProduct = async (id: mongoose.Types.ObjectId) => {
   return product;
 };
 
+const addToWishlist = async (id: mongoose.Types.ObjectId) => {
+  console.log("product service : add to wishlist product id", id);
+  const updatedProduct = await ProductModel.findByIdAndUpdate(
+    id,
+    { wishList: true },
+    { new: true }
+  );
+  console.log("product service : updated product wishlist", updatedProduct);
+  return updatedProduct;
+};
+
+const getAllWishlistProducts = async() => {
+  const products = await ProductModel.find({ wishList: true })
+   .select("_id name price discountPercentage discountedPrice image")
+   .lean();
+  console.log("product service : all wishlist products", products);
+  return products;
+}
+
 export const ProductService = {
   saveProduct,
   existProduct,
@@ -59,4 +84,6 @@ export const ProductService = {
   productDetails,
   updateProduct,
   deletedProduct,
+  addToWishlist,
+  getAllWishlistProducts
 };

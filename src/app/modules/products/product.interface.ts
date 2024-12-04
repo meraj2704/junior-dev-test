@@ -8,4 +8,5 @@ export interface ProductI {
   active: boolean;
   image: string;
   isDeleted?: boolean;
+  wishList?: boolean;
 }

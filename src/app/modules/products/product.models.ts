@@ -10,6 +10,7 @@ const ProductsSchema = new Schema<ProductI>(
     description: { type: String, required: true },
     quantity: { type: Number, required: true },
     active: { type: Boolean, required: true },
+    wishList: { type: Boolean, default:false },
     image: { type: String, required: true },
     isDeleted: { type: Boolean, default: false },
   },

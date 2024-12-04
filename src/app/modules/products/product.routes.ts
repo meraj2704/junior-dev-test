@@ -16,6 +16,9 @@ router.get("/all-products", ProductController.getAllProducts);
 
 router.get("/product-details/:id", ProductController.getProductDetails);
 
+router.put("/add-to-wish-list/:id", ProductController.addOnWishlist);
+router.get("/all-wishList-products", ProductController.getAllWishListProducts);
+
 // router.put(
 //   "/product-update/:id",
 //   upload.single("file"),
