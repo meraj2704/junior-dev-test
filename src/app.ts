@@ -3,6 +3,7 @@ import connectDB from "./db";
 import cors from "cors";
 import errorHandler from "./app/middlewares/global.error";
 import { ProductRouter } from "./app/modules/products/product.routes";
+import { BillRouter } from "./app/modules/BILLING/billing.routes";
 
 const app: Application = express();
 const PORT = process.env.PORT || 4040;
@@ -22,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/api/product", ProductRouter)
+app.use("/api/bill", BillRouter)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   errorHandler(err, req, res, next);
