@@ -16,11 +16,11 @@ router.get("/all-products", ProductController.getAllProducts);
 
 router.get("/product-details/:id", ProductController.getProductDetails);
 
-router.put(
-  "/product-update/:id",
-  upload.single("file"),
-  ProductController.productUpdate
-);
+// router.put(
+//   "/product-update/:id",
+//   upload.single("file"),
+//   ProductController.productUpdate
+// );
 
 router.delete("/product-delete/:id", ProductController.productDelete);
 

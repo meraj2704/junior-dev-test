@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 const createProduct = async (req: Request, res: Response): Promise<void> => {
   const imageUrl = req.file ? req.file.path : undefined;
   const { name } = req.body;
+  console.log("hitted on controller")
   console.log("product data ", req.body);
   try {
     const product = await ProductService.existProduct(name);
@@ -83,47 +84,47 @@ const getProductDetails = async (
   }
 };
 
-const productUpdate = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const _id = new mongoose.Types.ObjectId(id);
-    const imageUrl = req.file ? req.file.path : undefined;
-    const existProduct = await ProductService.productDetails(_id);
-    if (!existProduct) {
-      sendErrorResponse(res, "Product not found", [], 404);
-      return;
-    }
-    const { name, description, price, quantity, active } = req.body;
-    const updatedProduct = await ProductService.updateProduct(_id, {
-      name,
-      price,
-      description,
-      quantity,
-      active,
-      image: imageUrl || existProduct.image,
-    });
-    if (!updatedProduct) {
-      sendErrorResponse(
-        res,
-        "An error occurred while updating product",
-        [],
-        500
-      );
-      return;
-    }
-    sendSuccessResponse(
-      res,
-      updatedProduct,
-      "Product updated successfully",
-      200
-    );
-    return;
-  } catch (err: any) {
-    console.error("Error updating product : ", err);
-    sendErrorResponse(res, "An error occurred while updating product", [], 500);
-    return;
-  }
-};
+// const productUpdate = async (req: Request, res: Response) => {
+//   try {
+//     const { id } = req.params;
+//     const _id = new mongoose.Types.ObjectId(id);
+//     const imageUrl = req.file ? req.file.path : undefined;
+//     const existProduct = await ProductService.productDetails(_id);
+//     if (!existProduct) {
+//       sendErrorResponse(res, "Product not found", [], 404);
+//       return;
+//     }
+//     const { name, description, price, quantity, active } = req.body;
+//     const updatedProduct = await ProductService.updateProduct(_id, {
+//       name,
+//       price,
+//       description,
+//       quantity,
+//       active,
+//       image: imageUrl || existProduct.image,
+//     });
+//     if (!updatedProduct) {
+//       sendErrorResponse(
+//         res,
+//         "An error occurred while updating product",
+//         [],
+//         500
+//       );
+//       return;
+//     }
+//     sendSuccessResponse(
+//       res,
+//       updatedProduct,
+//       "Product updated successfully",
+//       200
+//     );
+//     return;
+//   } catch (err: any) {
+//     console.error("Error updating product : ", err);
+//     sendErrorResponse(res, "An error occurred while updating product", [], 500);
+//     return;
+//   }
+// };
 
 const productDelete = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -162,6 +163,6 @@ export const ProductController = {
   createProduct,
   getAllProducts,
   getProductDetails,
-  productUpdate,
+  // productUpdate,
   productDelete,
 };
