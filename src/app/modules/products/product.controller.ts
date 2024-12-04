@@ -6,18 +6,25 @@ import mongoose from "mongoose";
 const createProduct = async (req: Request, res: Response): Promise<void> => {
   const imageUrl = req.file ? req.file.path : undefined;
   const { name } = req.body;
-  console.log("hitted on controller")
-  console.log("product data ", req.body);
   try {
     const product = await ProductService.existProduct(name);
     if (product) {
       sendErrorResponse(res, "Product already exists", [], 400);
       return;
     }
-    console.log("product controller : product", product);
     const newProduct = await ProductService.saveProduct(req.body, imageUrl);
     if (newProduct) {
-      sendSuccessResponse(res, newProduct, "Product created successfully", 201);
+      const data ={
+        _id: newProduct._id,
+        name: newProduct.name,
+        price: newProduct.price,
+        discountPercentage: newProduct.discountPercentage,
+        discountedPrice: newProduct.discountedPrice,
+        description: newProduct.description,
+        quantity: newProduct.quantity,
+        image: newProduct.image,
+      }
+      sendSuccessResponse(res, data, "Product created successfully", 201);
       return;
     }
     sendErrorResponse(res, "An error occurred while creating product", [], 500);

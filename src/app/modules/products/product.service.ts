@@ -21,14 +21,14 @@ const existProduct = async (name: string) => {
 
 const allProducts = async () => {
   console.log("get all products");
-  const products = await ProductModel.find({ isDeleted: false }).lean();
+  const products = await ProductModel.find({ isDeleted: false }).select("_id name price discountPercentage discountedPrice image").lean();
   console.log("all products ", products);
   return products;
 };
 
 const productDetails = async (_id: mongoose.Types.ObjectId) => {
   console.log("product service : product id", _id);
-  const productDetails = await ProductModel.findById(_id);
+  const productDetails = await ProductModel.findById(_id).select("_id name price discountPercentage discountedPrice description image active").lean();
   console.log("product service : product details", productDetails);
   return productDetails;
 };
